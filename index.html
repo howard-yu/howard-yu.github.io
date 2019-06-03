@@ -8,7 +8,7 @@
 <body>
    <div id="app">
         <div class="ui small breadcrumb">
-            <div class="label label-default">新增商品</div>
+            <div class="label label-default"><h4>放山雞訂購</h4></div>
         </div>
         <div class="ui container main">
             <form class="ui form" id="Add">
@@ -17,11 +17,11 @@
                     <input class="form-control" id="Name" type="text" name="Name" placeholder="輸入姓名"  v-model="newModel.Name">
                 </div>
                 <div class="field">
-                    <h4 class="ui header">訂購電話</h4>
-                    <input class="form-control" id="Tel" type="text" name="Tel" placeholder="輸入電話" v-model="newModel.Tel">
+                    <h4 class="ui header">訂購手機</h4>
+                    <input class="form-control" id="Tel" type="text" name="Tel" placeholder="輸入手機號碼" v-model="newModel.Tel">
                 </div>
                 <div class="field">
-                    <h4 class="ui header">訂購地址(限雙北)</h4>
+                    <h4 class="ui header">訂購地址</h4>
                     <input class="form-control" id="Address" type="text" name="Address" placeholder="輸入地址" v-model="newModel.Address">
                 </div>
             </form>
@@ -34,7 +34,7 @@
                         <th class="center aligned">切/不切</th>
                         <th class="center aligned">要內臟/不要內臟</th>
                         <th class="center aligned">
-                            <button type="button" class="btn btn-primary" @click="createSpec">+</button>
+                            <button type="button" class="btn btn-primary" @click="createSpec">新增</button>
                         </th>
                     </tr>
                 </thead>
@@ -74,7 +74,7 @@
                                 </div>
                             </td>
                             <td class="collapsing center aligned">
-                                <button type="button" class="btn btn-danger" @click="deleteSpec(index)">-</button>
+                                <button type="button" class="btn btn-danger" @click="deleteSpec(index)">刪除</button>
                             </td>
                         </tr>
                     </tbody>
@@ -82,7 +82,8 @@
             </table>
             <div id="fixedFunction">
                 <div class="ui middle aligned grid">
-                    <button type="button" class="btn btn-success" @click="createProduct">Success</button>
+                    <button type="button" class="btn btn-success" @click="createProduct">送出訂購</button>
+                    <button type="button" class="btn btn-secondary" @click="window.location.href=window.location.href">清除重填</button>
                 </div>
             </div>
         </div>
@@ -95,7 +96,7 @@
     var app = new Vue({
         el: '#app',
         data: { 
-            postUrl : 'http://localhost:49826/api/GCP/GetGcpService',
+            postUrl : 'http://localhost:49550/api/GCP/GetGcpService',
             newModel: {
                 Name: '',
                 Tel: '',
@@ -106,10 +107,10 @@
             orderlist:[],
 
             order: {
-                Sex : "",
+                Sex : "公",
 			    Qty : "",
-			    IsCut: "",
-			    IsInternalOrgans : ""
+			    IsCut: "Y",
+			    IsInternalOrgans : "Y"
             },
 
             optionsSex: [
@@ -121,6 +122,7 @@
                 { text: '切', value: 'Y' },
                 { text: '不切', value: 'N' },
             ],
+
             optionsInternalOrgans: [
                 { text: '要內臟', value: 'Y' },
                 { text: '不要內臟', value: 'N' },
@@ -132,21 +134,49 @@
         methods: {
             createSpec: function () {
                 this.orderlist.push(this.order);
-                this.order = { Sex: '', Qty: '', IsCut: '', IsInternalOrgans: ''}
+                this.order = { Sex: '公', Qty: '', IsCut: 'Y', IsInternalOrgans: 'Y'}
             },
             deleteSpec: function (index) {
+                if(this.orderlist.length == 1)
+                    return;
                 this.orderlist.splice(index, 1);
             },
             createProduct: function () {
                 var vm = this;
+                var checked = vm.checkinput(vm);
+                if (!checked)
+                    return;
                 vm.newModel.orders = vm.orderlist;
-
+            
                 this.$http.post(this.postUrl, vm.newModel, {emulateJSON: true})
                 .then(response => {
                     alert('OK');
                 }, response => {
                     alert('訂購成功');
                 });
+            },
+            checkinput: function(vm) {
+                var type = true;
+                if (vm.newModel.Name == ''){
+                    alert('請輸入姓名!')
+                    type = false;
+                    return;
+                }    
+
+                var re = /^09\d{8}$/;
+                var found = vm.newModel.Tel.match(re);
+                if (found == null) {
+                    alert('請輸入完整手機號碼!')
+                    type = false;
+                    return;
+                }
+
+                if (vm.newModel.Address == ''){
+                    alert('請輸入地址!')
+                    type = false;
+                    return;
+                }    
+                return type;
             }
         }
     })
