@@ -1,184 +1,355 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>howhowmi</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-</head>
-<body>
-   <div id="app">
-        <div class="ui small breadcrumb">
-            <div class="label label-default"><h4>放山雞訂購</h4></div>
-        </div>
-        <div class="ui container main">
-            <form class="ui form" id="Add">
-                <div class="field">
-                    <h4 class="ui header">訂購姓名</h4>
-                    <input class="form-control" id="Name" type="text" name="Name" placeholder="輸入姓名"  v-model="newModel.Name">
-                </div>
-                <div class="field">
-                    <h4 class="ui header">訂購手機</h4>
-                    <input class="form-control" id="Tel" type="text" name="Tel" placeholder="輸入手機號碼" v-model="newModel.Tel">
-                </div>
-                <div class="field">
-                    <h4 class="ui header">訂購地址</h4>
-                    <input class="form-control" id="Address" type="text" name="Address" placeholder="輸入地址" v-model="newModel.Address">
-                </div>
-            </form>
-            <h3 class="ui header">商品內容設定</h3>
-            <table class="ui celled table" id="proEditTable">
-                <thead>
-                    <tr>
-                        <th class="center aligned">公/母</th>
-                        <th class="center aligned">數量</th>
-                        <th class="center aligned">切/不切</th>
-                        <th class="center aligned">要內臟/不要內臟</th>
-                        <th class="center aligned">
-                            <button type="button" class="btn btn-primary" @click="createSpec">新增</button>
-                        </th>
-                    </tr>
-                </thead>
-                <template>
-                    <tbody>
-                        <tr v-for="(item,index) in orderlist">
-                            <td class="center aligned">
-                                <div class="ui input">
-                                    <select v-model="item.Sex">
-                                        <option v-for="option in optionsSex" v-bind:value="option.value">
-                                            {{ option.text }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </td>
-                            <td class="center aligned">
-                                <div class="ui input">
-                                    <input type="text" placeholder="ex 1..." v-model="item.Qty">
-                                </div>
-                            </td>
-                            <td class="center aligned">
-                                <div class="ui input">
-                                    <select v-model="item.IsCut">
-                                        <option v-for="option in optionsCut" v-bind:value="option.value">
-                                            {{ option.text }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </td>
-                            <td class="center aligned">
-                                <div class="ui input">
-                                    <select v-model="item.IsInternalOrgans">
-                                        <option v-for="option in optionsInternalOrgans" v-bind:value="option.value">
-                                            {{ option.text }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </td>
-                            <td class="collapsing center aligned">
-                                <button type="button" class="btn btn-danger" @click="deleteSpec(index)">刪除</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </template>
-            </table>
-            <div id="fixedFunction">
-                <div class="ui middle aligned grid">
-                    <button type="button" class="btn btn-success" @click="createProduct">送出訂購</button>
-                    <button type="button" class="btn btn-secondary" @click="window.location.href=window.location.href">清除重填</button>
-                </div>
-            </div>
-        </div>
-   </div> 
-</body>
-<script src="js/vue.min.js"></script>
-<script src="js/vue-resource.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: { 
-            postUrl : 'http://localhost:49550/api/GCP/GetGcpService',
-            newModel: {
-                Name: '',
-                Tel: '',
-                Address: '',
-                orders:[]
-            },
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-            orderlist:[],
+		<title>reveal.js</title>
 
-            order: {
-                Sex : "公",
-			    Qty : "",
-			    IsCut: "Y",
-			    IsInternalOrgans : "Y"
-            },
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
 
-            optionsSex: [
-                { text: '公', value: '公' },
-                { text: '母', value: '母' },
-            ],
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
 
-            optionsCut: [
-                { text: '切', value: 'Y' },
-                { text: '不切', value: 'N' },
-            ],
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<section data-markdown data-separator="---">
+							## JavaScript
+							![Sample image](images/1_zWhOGf_PgX0nRTLZLmFpGg.jpg)
+							---
+							go
+							---
+							## 環境建置CDN
+							外部引入檔案置於Html文件 head 或 body 內 
+							
+							[link](https://www.w3schools.com/jquery/jquery_get_started.asp)					
+					</section>
+					<section data-markdown>
+						<script type="text/template">		
+							<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+						</script>
+					</section>
+					<section data-markdown data-separator="---">
+							<script type="text/template">
+								## Hello JavaScript
+								Show Hello JavaScript
+								---
+								## Demo 
+								```javascript
+									var HelloJavaScript = "hello javascript";
+									alert(HelloJavaScript);
+								```
+							</script>
+					</section>
+					<section data-markdown data-separator="---">	
+						<script type="text/template">
+							null 和 undefined
+							
+							---
 
-            optionsInternalOrgans: [
-                { text: '要內臟', value: 'Y' },
-                { text: '不要內臟', value: 'N' },
-            ]
-        },
-        mounted() {
-            this.createSpec();
-        },
-        methods: {
-            createSpec: function () {
-                this.orderlist.push(this.order);
-                this.order = { Sex: '公', Qty: '', IsCut: 'Y', IsInternalOrgans: 'Y'}
-            },
-            deleteSpec: function (index) {
-                if(this.orderlist.length == 1)
-                    return;
-                this.orderlist.splice(index, 1);
-            },
-            createProduct: function () {
-                var vm = this;
-                var checked = vm.checkinput(vm);
-                if (!checked)
-                    return;
-                vm.newModel.orders = vm.orderlist;
-            
-                this.$http.post(this.postUrl, vm.newModel, {emulateJSON: true})
-                .then(response => {
-                    alert('OK');
-                }, response => {
-                    alert('訂購成功');
-                });
-            },
-            checkinput: function(vm) {
-                var type = true;
-                if (vm.newModel.Name == ''){
-                    alert('請輸入姓名!')
-                    type = false;
-                    return;
-                }    
+							在如果語句中，它們都會被自動轉為 <mark>false</mark>。
 
-                var re = /^09\d{8}$/;
-                var found = vm.newModel.Tel.match(re);
-                if (found == null) {
-                    alert('請輸入完整手機號碼!')
-                    type = false;
-                    return;
-                }
+							```javascript
+								if (!undefined) {
+									console.log('undefined is false');
+								}
+								// undefined is false
 
-                if (vm.newModel.Address == ''){
-                    alert('請輸入地址!')
-                    type = false;
-                    return;
-                }    
-                return type;
-            }
-        }
-    })
-</script>
+								if (!null) {
+									console.log('null is false');
+								}
+								// null is false
+
+								undefined == null
+								// true
+							```
+							---
+
+							null 與 C 語言相同可自動轉為 <mark>0</mark>
+
+							```javascript
+								Number(null) // 0
+								5 + null // 5
+							```
+							undefined 轉為數值時為 <mark>NaN</mark>
+							
+							```javascript
+								Number(undefined) // NaN
+								5 + undefined // NaN
+							```
+							---
+
+							區別與差異
+
+							null 是一個<mark>空</mark>的對象，轉為數值為 0
+
+							undefined 是一個表示<mark>此處無定義</mark>的原始值，轉換数值時為NaN。
+
+							---
+
+							```javascript
+								// 變數宣告，但没有赋值
+								var i;
+								i // undefined
+								
+								// 調用函數時，需提供的参数没有提供，該參數 = undefined
+								function f(x) {
+								return x;
+								}
+								f() // undefined
+								
+								// 物件没有赋值的屬性
+								var  o = new Object();
+								o.p // undefined
+								
+								// 函數沒有返回值，默認返回 undefined
+								function f() {}
+								f() // undefined
+							```
+							---
+							數值
+							---
+							+0 和 -0
+
+							JavaScript的64位浮點數之中，有一個二進制位是符號位。這意味著，任何一個數都有一個對應的負值，就連0也不例外。
+
+							JavaScript內部實際上存在2個0：一個是+ 0，一個是-0，區別就是64位浮點數表示法的符號位不同。它們是等價的。
+
+							---
+							```javascript
+								-0 === +0 // true
+								0 === -0 // true
+								0 === +0 // true
+								+0 // 0
+								-0 // 0
+								(-0).toString() // '0'
+								(+0).toString() // '0' 
+							```
+							---
+							唯一例外
+
+							唯一有區別的場合是，+0或-0當作分母，返回的值是不相等的。
+
+							```javascript
+								(1 / +0) === (1 / -0) // false
+							```
+							---
+							NaN
+
+							NaN是JavaScript的特殊值，表示<mark>（非數字）</mark>，主要出現在將字符串解析成數字出錯的場合。
+							---
+
+							```javascript
+								5 - 'x' // NaN
+
+								Math.acos(2) // NaN
+								Math.log(-1) // NaN
+								Math.sqrt(-1) // NaN
+
+								0 / 0 // NaN
+							```
+							上面代碼運行時，會自動將字符串X轉為數值，但是由於X不是數值，所以最後得到結果為NaN(非數字)。
+							
+							```javascript
+								typeof NaN // 'number'
+							```
+							需要注意的是，NaN的不是獨立的數據類型，而是一個特殊數值，它的數據類型依然屬於 number
+
+							---
+							String
+                            ---
+							這裡只說一件事...
+							
+							---
+							如果長字符串必須分成多行，可以在每一行的尾部使用<mark> \ </mark>。
+
+							```javascript
+								var longString = 'Long \
+								long \
+								long \
+								string';
+								
+								longString
+								// "Long long long string"
+							```
+						</script>	
+					</section>
+				</section>
+				<section>
+					<section data-markdown data-separator="---">
+						## CSS/SASS
+						![Sample image](images/f31c5c40915461818429.jpg)
+					</section>
+				</section>
+				<section>
+					<section data-markdown data-separator="---">
+						## ES6
+						![Sample image](images/1_aeFzjKB-7Y804GicKxk5Rg.jpg)
+					</section>
+				</section>
+				<section>
+					<section data-markdown data-separator="---">
+						## React.js
+						![Sample image](images/reactjs-tutorial.jpg)
+					</section>
+				</section>
+				<section>
+					<section data-markdown data-separator="---">
+						## Vue.js
+						![Sample image](images/Vue.PNG)
+						---
+						go
+						---
+						## Vue.js是什麼?
+						簡單小巧的核心，漸進式技術堆疊，足以應付各種規模應用 
+						
+						[Vue Link](https://vuejs.org/)
+						---
+						* 可重複使用的元件。
+						* 前端路由。
+						* 狀態管理。
+						* 虛擬DOM。	
+						---
+						## MVVM模式
+						當View(視圖層)產生變化時，會自動更新到ViewModel(視圖模型)。View和ViewModel之間透過雙向綁定
+						(data-binding)建立聯繫
+						---
+						![MVVM image](images/MVVM.PNG)
+						---
+						## View層
+						---
+						![View dome image](images/View.PNG)
+						---
+						## Model層
+						---
+						```javascript
+						let data = {
+							title: '',
+							list: []
+						}
+						```
+						---
+						## ViewModel層
+						---
+						```javascript
+						let vm = new Vue({
+							el: '#app',
+							data: data,
+							methods: {
+								add() {
+									this.list.push(this.title)
+									this.title = ''
+								}
+							}
+						})
+						```
+						---
+						## Vue.js 有什麼不同
+						---
+						## Jquery + 操作DOM + 綁定事件
+						---
+						![Jquery image](images/Jquery.PNG)
+						---
+						## Vue.js 改寫 視圖與資料拆開
+						---
+						![Jquery image](images/Vdemo.PNG)
+						---
+						## 如何使用Vue.js
+						---
+						1. 可透過Script 載入CDN
+						2. CLI
+
+						[安裝教學](https://cn.vuejs.org/v2/guide/installation.html)
+						---
+						[第一個Vue應用Hello World?](https://jsbin.com/horazigafe/edit?html,js,output)
+						---
+						建置函數Vue可以建置Vue的根實例並啟動Vue應用
+
+						```javascript
+						var app = new Vue({
+							//選項
+						})
+						```
+						el用於指定一個頁面中已存在的DOM元素來掛載Vue,可以是HTMLElement,也可以是CSS選擇器
+						```javascript
+						var app = new Vue({
+							el: document.getElementById('app') // or '#app'
+						})
+						```
+						掛載成功後可以使用 app.$el 來取得元素 
+						---
+						那如何取得data物件裡的屬性呢?
+						---
+						```javascript
+						var app = new Vue({
+							el: '#app',
+							data: {
+								a:2
+							}
+						})
+						console.log(app.a); // 2
+						```
+						---
+						## 先介紹兩個常用的生命週期
+						---
+						created 實例建立完成後呼叫(用於初始化資料)
+						---
+						mounted el掛載到實例上後呼叫
+						---
+						```javascript
+						var app = new Vue({
+							el: '#app',
+							data: {
+								a:2
+							},
+							created() {
+								console.log(this.a); // 2
+							},
+							mounted() {
+								console.log(this.$el);
+							},
+						})
+						```
+						---
+						內插運算式
+						---
+						[計時器](https://jsbin.com/lusibediwo/edit?html,js,output)
+						---
+						今天就先這樣吧....期待下次再見!
+					</section>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				],
+				controlsTutorial: true,
+				transition: 'slide', // 轉場動畫
+			});
+		</script>
+	</body>
 </html>
