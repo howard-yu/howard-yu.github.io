@@ -336,17 +336,21 @@
 						---
 						了解V-bind指令
 						---
+						綁在 HTML 上的屬性 (attribute) 若希望能與 vue instance 結合，就要加上v-bind:some_attribute。
+
+						如下所示，在<a>上的屬性 href，若希望能帶入資料 url，就要使用:href="url"。
+						---
 						![V-bind image](images/test1.PNG)
 						---
 						![V-bind image](images/test1j.PNG)
 						---
-						[範例1](https://jsbin.com/zumebavebi/edit?html,js,output)
+						[範例1](https://jsbin.com/zumebavebi/1/edit?html,js,output)
 						---
 						綁定class的幾種方法
 						---
 						1.給v-bind:class 設定一個物件，可以動態切換class
 						---
-						[物件語法1](https://jsbin.com/zumebavebi/1/edit?html,js,output)
+						[物件語法1](https://jsbin.com/zumebavebi/edit?html,js,output)
 						---
 						2.物件中也可傳入多個屬性來動態切換class。:class 可與普通 class 共存
 						---
@@ -362,7 +366,7 @@
 						---
 						5.可使用三元運算
 						---
-						[物件語法5](https://jsbin.com/zuyobijimo/edit?html,js,output)
+						[物件語法5](https://jsbin.com/royipajake/1/edit?html,js,output)
 						---
 						在元件上使用
 						---
@@ -371,6 +375,20 @@
 						大多數情況
 						---
 						[較常使用](https://jsbin.com/wefupavocu/edit?html,js,output)
+						---
+						## v-model
+						---
+						data: vue instance 可傳入選項物件，其中可設定 data（資料）。
+						---
+						data:是用來儲存元件內部狀態或資料和 v-model 合作實現雙向綁定資料型別
+						---
+						data:可以是 object 或 function，但元件（component）的 data 只能是 function，這是因為元件內各自擁有自己的 data，而非共用的關係。
+						---
+						原理:在 observer 中，data 透過Object.defineProperty()為元件內屬性重新定義getter和setter method。當 data 被修改時，會透過setter通知變化，觸發 watcher 重新計算、更新與渲染 DOM element。
+						---
+						[單選按鈕](https://jsbin.com/mexecujoye/edit?html,js,output)
+						---
+						[複選按鈕](https://jsbin.com/woyekotoro/edit?html,js,output)
 					</section>	
 				</section>
 			</div>
